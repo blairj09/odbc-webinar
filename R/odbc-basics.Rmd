@@ -1,0 +1,20 @@
+---
+title: "ODBC Basics"
+output: html_notebook
+---
+
+```{r setup}
+
+```
+
+# Connecting
+
+## Connection Details
+
+# Queries
+
+## SQL
+
+## dbplyr
+
+
