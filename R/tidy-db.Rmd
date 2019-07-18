@@ -46,6 +46,15 @@ delay_summary %>%
   show_query()
 ```
 
+```{r}
+delay_summary_r <- collect(delay_summary)
+```
+
+```{r}
+class(delay_summary_r)
+```
+
+
 # Multiple Tables
 ```{r}
 delay_summary %>% 
@@ -54,8 +63,11 @@ delay_summary %>%
 ```
 
 ```{r}
-delay_summary %>% 
-  left_join(airlines_db, by = "carrier")
+delay_summary_r <- delay_summary %>% 
+  left_join(airlines_db, by = "carrier") %>% 
+  collect()
+
+delay_summary_r
 ```
 
 # Disconnect
