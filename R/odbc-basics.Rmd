@@ -16,7 +16,7 @@ config <- config::get()
 # Connecting
 ## Connection String
 ```{r}
-con <- dbConnect(odbc(), 
+con <- dbConnect(odbc::odbc(), 
                  driver = config$driver,
                  host = config$host,
                  uid = config$uid,
@@ -24,6 +24,11 @@ con <- dbConnect(odbc(),
                  port = config$port,
                  database = config$database)
 ```
+
+```{r}
+class(con)
+```
+
 
 ```{r}
 dbDisconnect(con)
@@ -53,6 +58,7 @@ dbListTables(con)
 SELECT * FROM flights LIMIT 10;
 ```
 
+
 ```{sql, connection="con", output.var = flights_head}
 SELECT * FROM flights LIMIT 10;
 ```
@@ -60,6 +66,12 @@ SELECT * FROM flights LIMIT 10;
 ```{r}
 flights_head
 ```
+
+```{r}
+flights_head_2 <- dbGetQuery(con, "SELECT * FROM flights LIMIT 10;")
+flights_head_2
+```
+
 
 ## dbplyr
 ```{r}
