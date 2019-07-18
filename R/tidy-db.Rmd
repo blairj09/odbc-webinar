@@ -4,6 +4,69 @@ output: html_notebook
 ---
 
 ```{r setup}
+# Packages
+library(tidyverse)
+library(DBI)
+library(odbc)
 
+# Get config
+config <- config::get()
 ```
+
+```{r}
+con <- dbConnect(odbc(), 
+                 driver = config$driver,
+                 host = config$host,
+                 uid = config$uid,
+                 pwd = config$pwd,
+                 port = config$port,
+                 database = config$database)
+```
+
+```{r}
+flights_db <- tbl(con, "flights")
+airlines_db <- tbl(con, "airlines")
+airports_db <- tbl(con, "airports")
+planes_db <- tbl(con, "planes")
+weather_db <- tbl(con, "weather")
+```
+
+# Single Table
+```{r}
+delay_summary <- flights_db %>% 
+  group_by(carrier) %>%
+  summarise(
+    delay = mean(arr_delay, na.rm = TRUE),
+    n = n()
+  ) %>% 
+  arrange(desc(delay)) %>%
+  filter(n > 100)
+```
+
+```{r}
+class(delay_summary)
+```
+
+```{r}
+delay_summary %>% 
+  show_query()
+```
+
+# Multiple Tables
+```{r}
+delay_summary %>% 
+  left_join(airlines_db, by = "carrier") %>% 
+  show_query()
+```
+
+```{r}
+delay_summary %>% 
+  left_join(airlines_db, by = "carrier")
+```
+
+# Disconnect
+```{r}
+dbDisconect(con)
+```
+
 
