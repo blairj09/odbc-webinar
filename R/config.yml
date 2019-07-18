@@ -1,0 +1,12 @@
+default:
+  dsn: "flights_dev"
+  driver: "PostgreSQL"
+  host: "boeing-odbc-webinar.cloiraotshw4.us-east-1.rds.amazonaws.com"
+  uid: "rstudio_user"
+  pwd: "rstudio"
+  port: 5432
+  database: "flights_dev"
+  
+rsconnect:
+  dsn: "flights"
+  database: "flights"
