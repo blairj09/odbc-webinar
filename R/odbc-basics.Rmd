@@ -4,17 +4,88 @@ output: html_notebook
 ---
 
 ```{r setup}
+# Packages
+library(tidyverse)
+library(DBI)
+library(odbc)
 
+# Get config
+config <- config::get()
 ```
 
 # Connecting
+## Connection String
+```{r}
+con <- dbConnect(odbc(), 
+                 driver = config$driver,
+                 host = config$host,
+                 uid = config$uid,
+                 pwd = config$pwd,
+                 port = config$port,
+                 database = config$database)
+```
+
+```{r}
+dbDisconnect(con)
+```
+
+## DSN
+```{bash}
+cat ~/.odbc.ini
+```
+
+```{r}
+con <- dbConnect(odbc(), config$dsn)
+```
 
 ## Connection Details
+```{r}
+dbGetInfo(con)
+```
+
+```{r}
+dbListTables(con)
+```
 
 # Queries
-
 ## SQL
+```{sql, connection="con"}
+SELECT * FROM flights LIMIT 10;
+```
+
+```{sql, connection="con", output.var = flights_head}
+SELECT * FROM flights LIMIT 10;
+```
+
+```{r}
+flights_head
+```
 
 ## dbplyr
+```{r}
+flights_db <- tbl(con, "flights")
+```
 
+```{r}
+class(flights_db)
+```
 
+```{r}
+flights_db
+```
+
+```{r}
+flights_db %>% 
+  show_query()
+```
+
+```{r}
+flights_db %>% 
+  head() %>% 
+  show_query()
+```
+
+# Disconnect
+```{r}
+dbDisconnect(con)
+```
