@@ -14,13 +14,7 @@ config <- config::get()
 ```
 
 ```{r}
-con <- dbConnect(odbc(), 
-                 driver = config$driver,
-                 host = config$host,
-                 uid = config$uid,
-                 pwd = config$pwd,
-                 port = config$port,
-                 database = config$database)
+con <- dbConnect(odbc(), config$dsn)
 ```
 
 ```{r}
