@@ -19,6 +19,8 @@ flights_dev_con <- dbConnect(RPostgres::Postgres(),
                              password = "rstudio")
 
 # Write data into flights database
+flights <- flights %>% 
+  mutate(date = lubridate::make_date(year, month, day))
 dbWriteTable(flights_con, "flights", flights, overwrite = TRUE)
 dbWriteTable(flights_con, "weather", weather, overwrite = TRUE)
 dbWriteTable(flights_con, "planes", planes, overwrite = TRUE)
