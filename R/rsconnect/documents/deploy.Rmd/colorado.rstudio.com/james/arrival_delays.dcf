@@ -1,0 +1,12 @@
+name: arrival_delays
+title: Arrival Delays
+username: james
+account: james
+server: colorado.rstudio.com
+hostUrl: https://colorado.rstudio.com/rsc/__api__
+appId: 2655
+bundleId: 26285
+url: https://colorado.rstudio.com:443/rsc/content/2655/
+when: 1563465206.79469
+asMultiple: FALSE
+asStatic: FALSE
