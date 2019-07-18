@@ -1,0 +1,50 @@
+---
+title: "Deploy Example"
+resource_files:
+- config.yml
+output: html_document
+---
+
+```{r setup}
+# Packages
+library(tidyverse)
+library(DBI)
+
+# Config
+config <- config::get()
+
+# Database Connetion
+con <- dbConnect(odbc::odbc(), 
+                 driver = config$driver,
+                 host = config$host,
+                 uid = config$uid,
+                 pwd = config$pwd,
+                 port = config$port,
+                 database = config$database)
+```
+
+```{r}
+flights_db <- tbl(con, "flights")
+airlines_db <- tbl(con, "airlines")
+```
+
+```{r}
+flights_db %>% 
+  group_by(carrier) %>%
+  summarise(
+    delay = mean(arr_delay, na.rm = TRUE),
+    n = n()
+  ) %>% 
+  arrange(desc(delay)) %>%
+  filter(n > 100) %>% 
+  inner_join(airlines_db, by = "carrier") %>% 
+  ggplot(aes(x = forcats::fct_reorder(name, -delay), y = delay)) +
+  geom_col() +
+  labs(title = "Average Arrival Delays",
+       x = "Carrier",
+       y = "Average Delay") +
+  theme_bw() +
+  coord_flip()
+```
+
+

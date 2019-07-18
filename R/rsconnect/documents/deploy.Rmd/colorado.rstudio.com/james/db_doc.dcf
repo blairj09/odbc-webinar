@@ -1,0 +1,12 @@
+name: db_doc
+title: DB Doc
+username: james
+account: james
+server: colorado.rstudio.com
+hostUrl: https://colorado.rstudio.com/rsc/__api__
+appId: 2653
+bundleId: 26282
+url: https://colorado.rstudio.com:443/rsc/content/2653/
+when: 1563430014.01096
+asMultiple: FALSE
+asStatic: FALSE
